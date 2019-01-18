@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Model\Review;
 use App\Model\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Resources\Review\ReviewResource;
+use App\Http\Requests\ReviewRequest;
+use Auth;
 
 class ReviewController extends Controller
 {
@@ -35,9 +38,21 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReviewRequest $request, Product $product)
     {
-        //
+        /*$review = new Review;
+        $review->customer   = $request->customer;
+        $review->review     = $request->review;
+        $review->star       = $request->star;
+        $review->product_id = $product->id;
+        $review->save();*/
+        $review = new Review($request->all());
+        $product->reviews()->save($review);
+        return response(
+            [
+                'data' => new ReviewResource($review)
+            ], Response::HTTP_CREATED
+        );
     }
 
     /**
