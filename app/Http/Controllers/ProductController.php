@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Product;
 use Illuminate\Http\Request;
-use \Illuminate\Http\Response;
+use Illuminate\Http\Response;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Requests\ProductRequest;
@@ -107,7 +107,7 @@ class ProductController extends Controller
     {
         $product->delete();
         return response([
-
-        ]);
+            'data' => $product
+        ], Response::HTTP_NO_CONTENT);
     }
 }
