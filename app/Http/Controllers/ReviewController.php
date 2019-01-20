@@ -84,9 +84,17 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(ReviewRequest $request, Product $product, Review $review)
     {
-        //
+        if($review->update($request->all())){
+            return response([
+                'data' => new ReviewResource($review)
+            ], Response::HTTP_CREATED);
+        }else{
+            return response([
+                'data' => 'NOT FOUND'
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**
@@ -95,8 +103,12 @@ class ReviewController extends Controller
      * @param  \App\Model\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Review $review)
+    public function destroy(Product $product, Review $review)
     {
-        //
+        $review->delete();
+        return response(
+            null,
+            Response::HTTP_NOT_FOUND
+        );
     }
 }
